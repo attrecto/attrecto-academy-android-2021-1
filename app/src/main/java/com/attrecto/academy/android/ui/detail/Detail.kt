@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
+import com.attrecto.academy.android.model.Movie
 
 @Composable
 fun DetailScreen(imdbId: String) {

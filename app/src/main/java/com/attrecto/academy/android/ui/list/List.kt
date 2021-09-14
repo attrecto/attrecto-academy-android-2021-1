@@ -1,4 +1,4 @@
-package com.attrecto.academy.android
+package com.attrecto.academy.android.ui.list
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
@@ -15,6 +15,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
+import com.attrecto.academy.android.FakeData
+import com.attrecto.academy.android.model.Movie
+import com.attrecto.academy.android.ui.main.Screen
 import com.attrecto.academy.android.ui.theme.AttrectoAcademyAndroidTheme
 
 @Composable

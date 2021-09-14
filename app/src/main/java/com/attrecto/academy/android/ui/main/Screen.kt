@@ -1,4 +1,4 @@
-package com.attrecto.academy.android
+package com.attrecto.academy.android.ui.main
 
 sealed class Screen(val route: String) {
     companion object {
