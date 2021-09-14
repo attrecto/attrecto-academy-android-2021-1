@@ -3,6 +3,7 @@ package com.attrecto.academy.android
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -17,7 +18,7 @@ class MainActivity : ComponentActivity() {
             AttrectoAcademyAndroidTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+                    MovieCard(FakeData.movies[0])
                 }
             }
         }
@@ -25,14 +26,17 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun MovieCard(movie: Movie) {
+    Column {
+        Text(movie.title)
+        Text(movie.year.toString())
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+fun MovieCardPreview() {
     AttrectoAcademyAndroidTheme {
-        Greeting("Android")
+        MovieCard(FakeData.movies[0])
     }
 }
