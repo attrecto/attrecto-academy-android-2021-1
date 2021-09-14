@@ -10,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.attrecto.academy.android.FakeData
@@ -27,23 +29,16 @@ import com.attrecto.academy.android.ui.theme.AttrectoAcademyAndroidTheme
 
 @Composable
 fun ListScreen(navController: NavController) {
-    val expanded = remember {
-        mutableStateOf(false)
-    }
-
-    val movies = remember {
-        mutableStateOf(FakeData.movies)
-    }
-
-    val titleRes = remember {
-        mutableStateOf(R.string.app_bar_title)
-    }
+    val viewModel: ListViewModel = viewModel()
+    val expanded = remember { mutableStateOf(false) }
+    val movies by viewModel.movies
+    val titleRes by viewModel.titleRes
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = stringResource(id = titleRes.value))
+                    Text(text = stringResource(id = titleRes))
                 },
                 actions = {
                     Box(
@@ -63,8 +58,7 @@ fun ListScreen(navController: NavController) {
                         ) {
                             DropdownMenuItem(onClick = {
                                 expanded.value = false
-                                titleRes.value = R.string.sort_by_title
-                                movies.value = movies.value.sortedBy { it.title }
+                                viewModel.sort(Sort.BY_TITLE)
                             }) {
                                 Text(text = stringResource(R.string.sort_by_title))
                             }
@@ -73,8 +67,7 @@ fun ListScreen(navController: NavController) {
 
                             DropdownMenuItem(onClick = {
                                 expanded.value = false
-                                titleRes.value = R.string.sort_by_year
-                                movies.value = movies.value.sortedBy { it.year }
+                                viewModel.sort(Sort.BY_YEAR)
                             }) {
                                 Text(text = stringResource(R.string.sort_by_year))
                             }
@@ -83,8 +76,7 @@ fun ListScreen(navController: NavController) {
 
                             DropdownMenuItem(onClick = {
                                 expanded.value = false
-                                titleRes.value = R.string.sort_by_imdb_rating
-                                movies.value = movies.value.sortedBy { it.imdbRating }.reversed()
+                                viewModel.sort(Sort.BY_IMDB)
                             }) {
                                 Text(text = stringResource(R.string.sort_by_imdb_rating))
                             }
@@ -94,7 +86,7 @@ fun ListScreen(navController: NavController) {
             )
         }
     ) {
-        MovieList(movies.value) {
+        MovieList(movies) {
             navController.navigate(Screen.Detail.route(it))
         }
     }
