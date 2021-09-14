@@ -1,7 +1,6 @@
 package com.attrecto.academy.android
 
 import android.content.res.Configuration
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,30 +11,28 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.attrecto.academy.android.ui.theme.AttrectoAcademyAndroidTheme
 
 @Composable
-fun ListScreen() {
-    MovieList(FakeData.movies)
+fun ListScreen(navController: NavController) {
+    MovieList(FakeData.movies) {
+        navController.navigate(Screen.Detail.route(it))
+    }
 }
 
 @Composable
-fun MovieCard(movie: Movie) {
-    val context = LocalContext.current
-
+fun MovieCard(movie: Movie, onMovieClick: (imdbId: String) -> Unit) {
     Surface(
         shape = MaterialTheme.shapes.medium,
         elevation = 6.dp,
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                Toast
-                    .makeText(context, "Click", Toast.LENGTH_SHORT)
-                    .show()
+                onMovieClick(movie.imdbId)
             }
     ) {
         Row(modifier = Modifier.padding(all = 8.dp)) {
@@ -72,13 +69,13 @@ fun MovieCard(movie: Movie) {
 }
 
 @Composable
-fun MovieList(movies: List<Movie>) {
+fun MovieList(movies: List<Movie>, onMovieClick: (imdbId: String) -> Unit) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(all = 8.dp)
     ) {
         items(movies) {
-            MovieCard(movie = it)
+            MovieCard(movie = it, onMovieClick)
         }
     }
 }
@@ -88,6 +85,6 @@ fun MovieList(movies: List<Movie>) {
 @Composable
 fun MovieCardPreview() {
     AttrectoAcademyAndroidTheme {
-        MovieCard(FakeData.movies[0])
+        MovieCard(FakeData.movies[0]) {}
     }
 }

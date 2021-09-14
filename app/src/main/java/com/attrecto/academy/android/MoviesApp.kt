@@ -13,7 +13,11 @@ fun MoviesApp() {
         startDestination = Screen.List.route
     ) {
         composable(route = Screen.List.route) {
-            ListScreen()
+            ListScreen(navController)
+        }
+        composable(route = Screen.Detail.route) {
+            val imdbId = it.arguments?.getString(Screen.IMDB_ID)
+            DetailScreen(imdbId.orEmpty())
         }
     }
 }

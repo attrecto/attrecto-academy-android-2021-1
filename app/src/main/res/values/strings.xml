@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">Attrecto Academy Android</string>
+    <string name="app_name">Attrecto Akadémia Android 2021</string>
+    <string name="year_label">Year</string>
+    <string name="imdb_id_label">IMDB ID</string>
+    <string name="imdb_rating_label">IMDB Rating</string>
 </resources>
