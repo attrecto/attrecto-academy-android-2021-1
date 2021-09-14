@@ -1,5 +1,6 @@
 package com.attrecto.academy.android
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -72,6 +73,7 @@ fun MovieCard(movie: Movie) {
 }
 
 @Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun MovieCardPreview() {
     AttrectoAcademyAndroidTheme {
