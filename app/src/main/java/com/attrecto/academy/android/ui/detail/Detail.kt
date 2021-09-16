@@ -1,6 +1,7 @@
 package com.attrecto.academy.android.ui.detail
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -8,6 +9,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
@@ -34,6 +37,13 @@ fun DetailScreen(
 @Composable
 fun MovieDetail(movie: Movie) {
     val scrollState = rememberScrollState()
+    val showDialog = remember { mutableStateOf(false) }
+
+    if (showDialog.value) {
+        ImageDialog(imageUrl = movie.poster) {
+            showDialog.value = false
+        }
+    }
 
     Column(
         Modifier
@@ -46,7 +56,8 @@ fun MovieDetail(movie: Movie) {
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth(0.6f)
-                    .aspectRatio(0.65f),
+                    .aspectRatio(0.65f)
+                    .clickable { showDialog.value = true },
                 contentScale = ContentScale.Crop
             )
 
