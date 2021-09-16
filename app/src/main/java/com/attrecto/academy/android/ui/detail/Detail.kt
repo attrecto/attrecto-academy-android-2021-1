@@ -24,6 +24,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ChainStyle
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
@@ -60,82 +62,91 @@ fun MovieDetail(
         }
     }
 
-    Column(
+    ConstraintLayout(
         Modifier
+            .fillMaxSize()
             .verticalScroll(scrollState)
     ) {
-        Row(Modifier.padding(8.dp, 8.dp, 8.dp)) {
-            Image(
-                painter = rememberImagePainter(data = movie.poster),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth(0.6f)
-                    .aspectRatio(0.65f)
-                    .clickable { showDialog.value = true },
-                contentScale = ContentScale.Crop
+        val (details, list) = createRefs()
+        createVerticalChain(details, list, chainStyle = ChainStyle.SpreadInside)
+
+        Column(Modifier.constrainAs(details) {
+            top.linkTo(parent.top)
+        }) {
+            Row(Modifier.padding(8.dp, 8.dp, 8.dp)) {
+                Image(
+                    painter = rememberImagePainter(data = movie.poster),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth(0.6f)
+                        .aspectRatio(0.65f)
+                        .clickable { showDialog.value = true },
+                    contentScale = ContentScale.Crop
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Column {
+                    Text(
+                        text = stringResource(R.string.year_label),
+                        style = MaterialTheme.typography.caption
+                    )
+
+                    Text(
+                        text = "${movie.year}",
+                        style = MaterialTheme.typography.subtitle1
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = stringResource(R.string.imdb_id_label),
+                        style = MaterialTheme.typography.caption
+                    )
+
+                    Text(
+                        text = movie.imdbId,
+                        style = MaterialTheme.typography.subtitle1
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = stringResource(R.string.imdb_rating_label),
+                        style = MaterialTheme.typography.caption
+                    )
+
+                    Text(
+                        text = "${movie.imdbRating}",
+                        style = MaterialTheme.typography.subtitle1
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = movie.title,
+                fontFamily = FontFamily.Serif,
+                fontSize = 28.sp,
+                modifier = Modifier.padding(8.dp, 8.dp, 8.dp)
             )
 
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-            Column {
-                Text(
-                    text = stringResource(R.string.year_label),
-                    style = MaterialTheme.typography.caption
-                )
-
-                Text(
-                    text = "${movie.year}",
-                    style = MaterialTheme.typography.subtitle1
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = stringResource(R.string.imdb_id_label),
-                    style = MaterialTheme.typography.caption
-                )
-
-                Text(
-                    text = movie.imdbId,
-                    style = MaterialTheme.typography.subtitle1
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = stringResource(R.string.imdb_rating_label),
-                    style = MaterialTheme.typography.caption
-                )
-
-                Text(
-                    text = "${movie.imdbRating}",
-                    style = MaterialTheme.typography.subtitle1
-                )
-            }
+            Text(
+                text = movie.plot,
+                style = MaterialTheme.typography.subtitle1,
+                modifier = Modifier.padding(8.dp, 8.dp, 8.dp)
+            )
         }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text(
-            text = movie.title,
-            fontFamily = FontFamily.Serif,
-            fontSize = 28.sp,
-            modifier = Modifier.padding(8.dp, 8.dp, 8.dp)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text(
-            text = movie.plot,
-            style = MaterialTheme.typography.subtitle1,
-            modifier = Modifier.padding(8.dp, 8.dp, 8.dp)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
 
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(8.dp)
+            contentPadding = PaddingValues(8.dp),
+            modifier = Modifier.constrainAs(list) {
+                bottom.linkTo(parent.bottom)
+            }
         ) {
             items(similarMovies) {
                 SimilarMovieCard(movie = it) { imdbId ->
@@ -155,6 +166,7 @@ fun SimilarMovieCard(movie: Movie, onMovieClick: (String) -> Unit) {
         elevation = 6.dp,
         modifier = Modifier
             .size(100.dp, 140.dp)
+            .clickable { onMovieClick(movie.imdbId) }
     ) {
         Column(modifier = Modifier.padding(all = 8.dp)) {
             Image(
@@ -162,8 +174,7 @@ fun SimilarMovieCard(movie: Movie, onMovieClick: (String) -> Unit) {
                 contentDescription = null,
                 modifier = Modifier
                     .size(90.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .clickable { onMovieClick(movie.imdbId) },
+                    .clip(RoundedCornerShape(16.dp)),
                 contentScale = ContentScale.Crop
             )
 
