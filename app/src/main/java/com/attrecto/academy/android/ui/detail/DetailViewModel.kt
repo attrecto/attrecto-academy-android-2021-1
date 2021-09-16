@@ -7,8 +7,10 @@ import com.attrecto.academy.android.model.Movie
 
 class DetailViewModel : ViewModel() {
     val movie = mutableStateOf<Movie?>(null)
+    val similarMovies = mutableStateOf(FakeData.movies)
 
     fun setMovie(imdbId: String) {
         movie.value = FakeData.movies.find { it.imdbId == imdbId }
+        similarMovies.value = similarMovies.value.filter { it.imdbId != imdbId }.shuffled()
     }
 }
