@@ -19,7 +19,7 @@ fun MoviesApp() {
         }
         composable(route = Screen.Detail.route) {
             val imdbId = it.arguments?.getString(Screen.IMDB_ID)
-            DetailScreen(imdbId.orEmpty())
+            DetailScreen(imdbId.orEmpty(), navController)
         }
     }
 }

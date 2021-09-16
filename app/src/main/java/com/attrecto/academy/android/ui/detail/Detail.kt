@@ -25,25 +25,32 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.attrecto.academy.android.R
 import com.attrecto.academy.android.model.Movie
+import com.attrecto.academy.android.ui.main.Screen
 
 @Composable
 fun DetailScreen(
     imdbId: String,
+    navController: NavController,
     viewModel: DetailViewModel = viewModel()
 ) {
-    val movie by viewModel.movie
-    val similarMovies by viewModel.similarMovies
-
     viewModel.setMovie(imdbId)
 
-    movie?.let { MovieDetail(it, similarMovies) }
+    val movie by viewModel.movie
+    val similarMovies = remember { viewModel.similarMovies.value }
+
+    movie?.let { MovieDetail(it, similarMovies, navController) }
 }
 
 @Composable
-fun MovieDetail(movie: Movie, similarMovies: List<Movie>) {
+fun MovieDetail(
+    movie: Movie,
+    similarMovies: List<Movie>,
+    navController: NavController
+) {
     val scrollState = rememberScrollState()
     val showDialog = remember { mutableStateOf(false) }
 
@@ -131,14 +138,18 @@ fun MovieDetail(movie: Movie, similarMovies: List<Movie>) {
             contentPadding = PaddingValues(8.dp)
         ) {
             items(similarMovies) {
-                SimilarMovieCard(movie = it)
+                SimilarMovieCard(movie = it) { imdbId ->
+                    navController.navigate(Screen.Detail.route(imdbId)) {
+                        popUpTo(Screen.List.route)
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-fun SimilarMovieCard(movie: Movie) {
+fun SimilarMovieCard(movie: Movie, onMovieClick: (String) -> Unit) {
     Surface(
         shape = MaterialTheme.shapes.medium,
         elevation = 6.dp,
@@ -151,7 +162,8 @@ fun SimilarMovieCard(movie: Movie) {
                 contentDescription = null,
                 modifier = Modifier
                     .size(90.dp)
-                    .clip(RoundedCornerShape(16.dp)),
+                    .clip(RoundedCornerShape(16.dp))
+                    .clickable { onMovieClick(movie.imdbId) },
                 contentScale = ContentScale.Crop
             )
 
