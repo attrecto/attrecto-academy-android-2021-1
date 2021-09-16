@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.attrecto.academy.android.DetailScreen
+import com.attrecto.academy.android.ui.detail.DetailScreen
 import com.attrecto.academy.android.ui.list.ListScreen
 
 @Composable

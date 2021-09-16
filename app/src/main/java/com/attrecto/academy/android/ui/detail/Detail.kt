@@ -1,4 +1,4 @@
-package com.attrecto.academy.android
+package com.attrecto.academy.android.ui.detail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -7,23 +7,26 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
+import com.attrecto.academy.android.R
 import com.attrecto.academy.android.model.Movie
 
 @Composable
-fun DetailScreen(imdbId: String) {
-    val movie = remember {
-        FakeData.movies.find {
-            it.imdbId == imdbId
-        }
-    }
+fun DetailScreen(
+    imdbId: String,
+    viewModel: DetailViewModel = viewModel()
+) {
+    val movie by viewModel.movie
+
+    viewModel.setMovie(imdbId)
 
     movie?.let { MovieDetail(it) }
 }
