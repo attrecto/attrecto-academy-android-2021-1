@@ -6,5 +6,5 @@
     <string name="app_bar_title">Movies</string>
     <string name="sort_by_title">Sort By Title</string>
     <string name="sort_by_year">Sort By Year</string>
-    <string name="sort_by_imdb_rating">Sort By IMDB Rating</string>
+    <string name="sort_by_imdb_id">Sort By IMDB ID</string>
 </resources>

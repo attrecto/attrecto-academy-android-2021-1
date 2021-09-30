@@ -1,6 +1,6 @@
 package com.attrecto.academy.android
 
-import com.attrecto.academy.android.model.Movie
+import com.attrecto.academy.android.model.domain.Movie
 
 object FakeData {
     val movies = listOf(

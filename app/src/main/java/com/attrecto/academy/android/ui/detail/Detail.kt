@@ -11,10 +11,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -30,7 +27,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.attrecto.academy.android.R
-import com.attrecto.academy.android.model.Movie
+import com.attrecto.academy.android.model.domain.Movie
+import com.attrecto.academy.android.ui.list.Loading
 import com.attrecto.academy.android.ui.main.Screen
 
 @Composable
@@ -39,12 +37,17 @@ fun DetailScreen(
     navController: NavController,
     viewModel: DetailViewModel = viewModel()
 ) {
-    viewModel.setMovie(imdbId)
-
     val movie by viewModel.movie
-    val similarMovies = remember { viewModel.similarMovies.value }
+    val similarMovies by viewModel.similarMovies
+    val loading by viewModel.loading
+
+    LaunchedEffect(imdbId) {
+        viewModel.getMovieDetails(imdbId)
+    }
 
     movie?.let { MovieDetail(it, similarMovies, navController) }
+
+    Loading(isLoading = loading)
 }
 
 @Composable

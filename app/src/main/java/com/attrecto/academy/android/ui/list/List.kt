@@ -2,6 +2,7 @@ package com.attrecto.academy.android.ui.list
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,7 +24,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.attrecto.academy.android.FakeData
 import com.attrecto.academy.android.R
-import com.attrecto.academy.android.model.Movie
+import com.attrecto.academy.android.model.domain.Movie
 import com.attrecto.academy.android.ui.main.Screen
 import com.attrecto.academy.android.ui.theme.AttrectoAcademyAndroidTheme
 
@@ -78,7 +79,7 @@ fun ListScreen(navController: NavController) {
                                 expanded.value = false
                                 viewModel.sort(Sort.BY_IMDB)
                             }) {
-                                Text(text = stringResource(R.string.sort_by_imdb_rating))
+                                Text(text = stringResource(R.string.sort_by_imdb_id))
                             }
                         }
                     }
@@ -86,9 +87,13 @@ fun ListScreen(navController: NavController) {
             )
         }
     ) {
+        val loading by viewModel.loading
+
         MovieList(movies) {
             navController.navigate(Screen.Detail.route(it))
         }
+
+        Loading(isLoading = loading)
     }
 }
 
@@ -128,7 +133,7 @@ fun MovieCard(movie: Movie, onMovieClick: (imdbId: String) -> Unit) {
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "${movie.imdbRating}",
+                    text = movie.imdbId,
                     style = MaterialTheme.typography.subtitle1
                 )
             }
@@ -144,6 +149,21 @@ fun MovieList(movies: List<Movie>, onMovieClick: (imdbId: String) -> Unit) {
     ) {
         items(movies) {
             MovieCard(movie = it, onMovieClick)
+        }
+    }
+}
+
+@Composable
+fun Loading(isLoading: Boolean) {
+    if (isLoading) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colors.background)
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
         }
     }
 }
