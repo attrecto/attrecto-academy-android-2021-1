@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Attrecto Academy Android</string>
+    <string name="title_label">Movie title</string>
+    <string name="year_label">Year</string>
+    <string name="id_label">Imdb Id</string>
+    <string name="rating_label">Imdb rating</string>
 </resources>
