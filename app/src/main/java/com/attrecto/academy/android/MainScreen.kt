@@ -13,7 +13,10 @@ fun MainScreen() {
         startDestination = Screen.List.path
     ) {
         composable(Screen.List.path) {
-            ListScreen()
+            ListScreen(navController = navController)
+        }
+        composable(Screen.Detail.path){
+            DetailsScreen()
         }
     }
 }

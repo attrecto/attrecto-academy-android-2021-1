@@ -25,24 +25,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.attrecto.academy.android.ui.theme.AttrectoAcademyAndroidTheme
 
 
 @Composable
-fun MovieCard(movie: Movie) {
-    val context = LocalContext.current
-
+fun MovieCard(movie: Movie, onClick: () -> Unit) {
     Surface(
         shape = MaterialTheme.shapes.medium,
         elevation = 6.dp,
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                Toast
-                    .makeText(context, "movie.title", Toast.LENGTH_SHORT)
-                    .show()
-                Log.e("onclick", "movie click")
+                onClick()
             }
     ) {
         Row(modifier = Modifier.padding(all = 8.dp)) {
@@ -78,15 +74,16 @@ fun MovieCard(movie: Movie) {
     }
 }
 
-@Preview
 @Composable
-fun ListScreen(movies: List<Movie> = FakeData.movies) {
+fun ListScreen(movies: List<Movie> = FakeData.movies, navController: NavHostController) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(8.dp)
     ) {
         items(movies) {
-            MovieCard(movie = it)
+            MovieCard(movie = it) {
+                navController.navigate(Screen.Detail.path)
+            }
         }
     }
 }
@@ -96,6 +93,6 @@ fun ListScreen(movies: List<Movie> = FakeData.movies) {
 @Composable
 fun MovieCardPreview() {
     AttrectoAcademyAndroidTheme {
-        MovieCard(FakeData.movies[0])
+        MovieCard(FakeData.movies[0]) {}
     }
 }
