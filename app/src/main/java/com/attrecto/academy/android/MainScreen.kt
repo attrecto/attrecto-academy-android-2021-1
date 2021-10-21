@@ -16,7 +16,7 @@ fun MainScreen() {
             ListScreen(navController = navController)
         }
         composable(Screen.Detail.path){
-            DetailsScreen()
+            DetailsScreen(it.arguments?.getString(Screen.PARAM_ID))
         }
     }
 }

@@ -1,8 +1,6 @@
 package com.attrecto.academy.android
 
 import android.content.res.Configuration
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,7 +20,6 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -31,14 +28,14 @@ import com.attrecto.academy.android.ui.theme.AttrectoAcademyAndroidTheme
 
 
 @Composable
-fun MovieCard(movie: Movie, onClick: () -> Unit) {
+fun MovieCard(movie: Movie, onClick: (String) -> Unit) {
     Surface(
         shape = MaterialTheme.shapes.medium,
         elevation = 6.dp,
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                onClick()
+                onClick(movie.imdbId)
             }
     ) {
         Row(modifier = Modifier.padding(all = 8.dp)) {
@@ -80,9 +77,9 @@ fun ListScreen(movies: List<Movie> = FakeData.movies, navController: NavHostCont
         verticalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(8.dp)
     ) {
-        items(movies) {
-            MovieCard(movie = it) {
-                navController.navigate(Screen.Detail.path)
+        items(movies) { movie ->
+            MovieCard(movie = movie) {
+                navController.navigate(Screen.Detail.path(it))
             }
         }
     }
