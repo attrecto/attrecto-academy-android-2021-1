@@ -1,4 +1,4 @@
-package com.attrecto.academy.android
+package com.attrecto.academy.android.model
 
 data class Movie(
     val title: String,

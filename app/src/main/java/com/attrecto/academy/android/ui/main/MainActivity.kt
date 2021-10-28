@@ -1,4 +1,4 @@
-package com.attrecto.academy.android
+package com.attrecto.academy.android.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

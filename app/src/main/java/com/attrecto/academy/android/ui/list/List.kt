@@ -15,6 +15,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
+import com.attrecto.academy.android.model.Movie
+import com.attrecto.academy.android.ui.main.Screen
 import com.attrecto.academy.android.ui.theme.AttrectoAcademyAndroidTheme
 
 @Composable
