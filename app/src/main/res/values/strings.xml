@@ -3,4 +3,8 @@
     <string name="year_label">Year</string>
     <string name="imdb_id_label">IMDB ID</string>
     <string name="imdb_rating_label">IMDB Rating</string>
+    <string name="app_bar_title">Movies</string>
+    <string name="sort_by_title">Sort By Title</string>
+    <string name="sort_by_year">Sort By Year</string>
+    <string name="sort_by_imdb_id">Sort By IMDB ID</string>
 </resources>
