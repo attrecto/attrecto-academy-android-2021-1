@@ -33,6 +33,13 @@ class ListViewModel : ViewModel() {
     val movies = mutableStateOf(emptyList<Movie>())
     val titleRes = mutableStateOf(R.string.app_bar_title)
 
+    private val repository = provideMovieRepository()
+    init {
+        viewModelScope.launch {
+            movies.value = repository.getMovieList("star")
+        }
+    }
+
     fun sort(sortBy: Sort) {
         when (sortBy) {
             Sort.BY_IMDB -> {
