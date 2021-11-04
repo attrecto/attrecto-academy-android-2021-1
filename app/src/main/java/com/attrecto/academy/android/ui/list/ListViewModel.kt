@@ -30,7 +30,7 @@ class ListViewModel : ViewModel() {
             }
         }
      */
-    val movies = mutableStateOf(emptyList<Movie>())
+    val movies = mutableStateOf(FakeData.movies)
     val titleRes = mutableStateOf(R.string.app_bar_title)
 
     private val repository = provideMovieRepository()
